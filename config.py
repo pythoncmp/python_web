@@ -1,4 +1,5 @@
 from redis import StrictRedis
+import logging
 
 
 class Config(object):
@@ -29,11 +30,12 @@ class Config(object):
 
 class DevelopmentConfig(Config):
 	DEBUG = True
+	LOG_LEVEL = logging.DEBUG
 
 
 class ProductionConfig(Config):
 	DEBUG = False
-
+	LOG_LEVEL = logging.DEBUG
 
 # 给外界提供一个接口
 config_dict = {
