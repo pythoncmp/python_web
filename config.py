@@ -17,7 +17,7 @@ class Config(object):
 	# 将flask中的session存储到redis数据库的储存信息
 	# 储存到哪种数据库
 	SESSION_TYPE = "redis"
-	# 具体将session中的数据粗处女到哪个redis数据库对象
+	# 具体将session中的数据储存到哪个redis数据库对象
 	SESSION_REDIS = StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=1)
 	# session储存的数据后产生的session_id需要加密
 	SESSION_USE_SIGNER = True

@@ -1,27 +1,8 @@
-from flask import Flask, session
-from flask_sqlalchemy import SQLAlchemy
-from redis import StrictRedis
-from flask_wtf.csrf import CSRFProtect
-from flask_session import Session
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from config import config_dict
+from info import create_app
 
-app = Flask(__name__)
-Config = config_dict["development"]
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-# 创建redis数据库对象
-redis_store = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
-csrf = CSRFProtect(app)
-
-# 借助Session将flask的session进行存储
-# if config['SESSION_TYPE'] == 'redis':
-# 	session_interface = RedisSessionInterface(
-# 		config['SESSION_REDIS'], config['SESSION_KEY_PREFIX'],
-# 		config['SESSION_USE_SIGNER'], config['SESSION_PERMANENT'])
-Session(app)
-
+app = create_app("development")
 # 6将app交给管理对象管理
 manager = Manager(app)
 # 87数据库迁移初始化
