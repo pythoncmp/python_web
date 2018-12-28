@@ -46,7 +46,7 @@ def create_app(model):
 	
 	# 创建redis数据库对象(懒加载思想)
 	global redis_store
-	redis_store = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
+	redis_store = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT,decode_responses=True)
 	
 	CSRFProtect(app)
 	
@@ -56,4 +56,6 @@ def create_app(model):
 	# 		config['SESSION_REDIS'], config['SESSION_KEY_PREFIX'],
 	# 		config['SESSION_USE_SIGNER'], config['SESSION_PERMANENT'])
 	Session(app)
+	from info.modules.index import index_bp
+	app.register_blueprint(index_bp)
 	return app

@@ -15,7 +15,7 @@ manager.add_command("db", MigrateCommand)
 
 @app.route("/")
 def index():
-	# redis_store.set("name", "laowang")
+	print("////////////" + redis_store.keys())
 	logging.debug("debug信息")
 	logging.info("info信息")
 	logging.warning("warning信息")
