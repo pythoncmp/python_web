@@ -5,6 +5,13 @@ from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from config import config_dict
 
+# 只是声明了db对象而已,并没有做真实的数据库初始化操作
+db = SQLAlchemy()
+# #type:StrictRedis 提前声明redis_store数据类型
+redis_store = None  # type:StrictRedis
+
+
+# 将app封装起来,给外界提供一个接口方法create_app
 
 def create_app(model):
 	"""
@@ -16,10 +23,14 @@ def create_app(model):
 	app = Flask(__name__)
 	Config = config_dict[model]
 	app.config.from_object(Config)
-	db = SQLAlchemy(app)
-	# 创建redis数据库对象
+	# 创建mysql数据库对象
+	db.init_app(app)
+	
+	# 创建redis数据库对象(懒加载思想)
+	global redis_store
 	redis_store = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
-	csrf = CSRFProtect(app)
+	
+	CSRFProtect(app)
 	
 	# 借助Session将flask的session进行存储
 	# if config['SESSION_TYPE'] == 'redis':
